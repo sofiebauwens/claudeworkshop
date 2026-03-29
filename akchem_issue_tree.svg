@@ -1,0 +1,325 @@
+<svg width="100%" viewBox="0 0 1140 1020" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+<style>
+  text, g { font-family: "Anthropic Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  .conn { stroke: #bbb; stroke-width: 0.5; }
+  .conn-light { stroke: #ddd; stroke-width: 0.5; }
+
+  /* All boxes: white fill, light gray border */
+  .root-box, .g-box, .b-box, .o-box { fill: #fff; stroke: #ccc; stroke-width: 0.5; }
+  .leaf-box  { fill: #fafafa; stroke: #ccc; stroke-width: 0.5; }
+
+  /* All text: dark gray */
+  .root-title, .g-title, .b-title, .o-title { fill: #222; font-size: 14px; font-weight: 600; }
+  .root-sub, .g-sub, .b-sub, .o-sub { fill: #555; font-size: 12px; }
+  .leaf-text { fill: #444; font-size: 11px; }
+
+  /* Info boxes */
+  .dcf-box  { fill: #fafafa; stroke: #ccc; stroke-width: 0.5; }
+  .dcf-title { fill: #222; font-size: 14px; font-weight: 600; }
+  .dcf-text  { fill: #555; font-size: 12px; }
+
+  .site-box { fill: #fafafa; stroke: #ccc; stroke-width: 0.5; }
+  .site-title { fill: #222; font-size: 14px; font-weight: 600; }
+  .site-text  { fill: #444; font-size: 12px; }
+
+  .rec-box  { fill: #f5f5f5; stroke: #999; stroke-width: 0.5; }
+  .rec-title { fill: #222; font-size: 14px; font-weight: 600; }
+  .rec-text  { fill: #444; font-size: 12px; }
+
+  .hint { fill: #888; font-size: 12px; }
+</style>
+
+<!-- ============ ROOT ============ -->
+<rect x="413" y="20" width="300" height="56" rx="8" class="root-box"/>
+<text x="563" y="42" text-anchor="middle" dominant-baseline="central" class="root-title">How can AkChem</text>
+<text x="563" y="60" text-anchor="middle" dominant-baseline="central" class="root-title">become future proof?</text>
+
+<!-- Trunk -->
+<line x1="563" y1="76" x2="563" y2="108" class="conn"/>
+<line x1="170" y1="108" x2="956" y2="108" class="conn"/>
+<line x1="170" y1="108" x2="170" y2="130" class="conn"/>
+<line x1="563" y1="108" x2="563" y2="130" class="conn"/>
+<line x1="956" y1="108" x2="956" y2="130" class="conn"/>
+
+<!-- ============ L1 BOXES ============ -->
+<!-- Q1 -->
+<g onclick="sendPrompt('Tell me more about Q1: What elements should AkChem consider when moving to sustainable chemicals?')">
+<rect x="95" y="130" width="150" height="56" rx="8" class="g-box"/>
+<text x="170" y="150" text-anchor="middle" dominant-baseline="central" class="g-title">Q1: What elements</text>
+<text x="170" y="168" text-anchor="middle" dominant-baseline="central" class="g-sub">to consider?</text>
+</g>
+
+<!-- Q2 -->
+<g onclick="sendPrompt('Tell me more about Q2: Which sustainable pathway should AkChem prioritize?')">
+<rect x="488" y="130" width="150" height="56" rx="8" class="b-box"/>
+<text x="563" y="150" text-anchor="middle" dominant-baseline="central" class="b-title">Q2: Which pathway</text>
+<text x="563" y="168" text-anchor="middle" dominant-baseline="central" class="b-sub">to prioritize?</text>
+</g>
+
+<!-- Q3 -->
+<g onclick="sendPrompt('Tell me more about Q3: Site closure and financial viability analysis')">
+<rect x="881" y="130" width="150" height="56" rx="8" class="o-box"/>
+<text x="956" y="150" text-anchor="middle" dominant-baseline="central" class="o-title">Q3: Financial</text>
+<text x="956" y="168" text-anchor="middle" dominant-baseline="central" class="o-sub">viability of switch?</text>
+</g>
+
+<!-- ============ Q1 BRANCH ============ -->
+<line x1="170" y1="186" x2="170" y2="216" class="conn"/>
+<line x1="91" y1="216" x2="249" y2="216" class="conn"/>
+<line x1="91" y1="216" x2="91" y2="236" class="conn"/>
+<line x1="249" y1="216" x2="249" y2="236" class="conn"/>
+
+<g onclick="sendPrompt('What external drivers are pushing AkChem toward sustainable chemicals?')">
+<rect x="36" y="236" width="110" height="56" rx="8" class="g-box"/>
+<text x="91" y="256" text-anchor="middle" dominant-baseline="central" class="g-title">A1. External</text>
+<text x="91" y="274" text-anchor="middle" dominant-baseline="central" class="g-sub">drivers</text>
+</g>
+
+<g onclick="sendPrompt('What internal readiness factors must AkChem assess before transitioning?')">
+<rect x="194" y="236" width="110" height="56" rx="8" class="g-box"/>
+<text x="249" y="256" text-anchor="middle" dominant-baseline="central" class="g-title">A2. Internal</text>
+<text x="249" y="274" text-anchor="middle" dominant-baseline="central" class="g-sub">readiness</text>
+</g>
+
+<!-- A1 leaves -->
+<line x1="91" y1="292" x2="91" y2="322" class="conn"/>
+<line x1="53" y1="322" x2="129" y2="322" class="conn"/>
+<line x1="53" y1="322" x2="53" y2="342" class="conn"/>
+<line x1="129" y1="322" x2="129" y2="342" class="conn"/>
+
+<g onclick="sendPrompt('What regulatory and market drivers (carbon pricing, EU packaging rules, customer demand) push AkChem toward sustainable chemicals?')">
+<rect x="20" y="342" width="66" height="56" rx="6" class="leaf-box"/>
+<text x="53" y="362" text-anchor="middle" dominant-baseline="central" class="leaf-text">Regulatory</text>
+<text x="53" y="378" text-anchor="middle" dominant-baseline="central" class="leaf-text">&amp; market</text>
+</g>
+<g onclick="sendPrompt('What competitive cost pressures (energy, CO2, overcapacity) are squeezing AkChem margins?')">
+<rect x="96" y="342" width="66" height="56" rx="6" class="leaf-box"/>
+<text x="129" y="362" text-anchor="middle" dominant-baseline="central" class="leaf-text">Cost</text>
+<text x="129" y="378" text-anchor="middle" dominant-baseline="central" class="leaf-text">pressure</text>
+</g>
+
+<!-- A2 leaves -->
+<line x1="249" y1="292" x2="249" y2="322" class="conn"/>
+<line x1="211" y1="322" x2="287" y2="322" class="conn"/>
+<line x1="211" y1="322" x2="211" y2="342" class="conn"/>
+<line x1="287" y1="322" x2="287" y2="342" class="conn"/>
+
+<g onclick="sendPrompt('How ready are AkChems existing assets and production capabilities for a sustainable transition?')">
+<rect x="178" y="342" width="66" height="56" rx="6" class="leaf-box"/>
+<text x="211" y="362" text-anchor="middle" dominant-baseline="central" class="leaf-text">Asset</text>
+<text x="211" y="378" text-anchor="middle" dominant-baseline="central" class="leaf-text">base</text>
+</g>
+<g onclick="sendPrompt('What strategic risks (execution, technology, financing) must AkChem manage in the transition?')">
+<rect x="254" y="342" width="66" height="56" rx="6" class="leaf-box"/>
+<text x="287" y="362" text-anchor="middle" dominant-baseline="central" class="leaf-text">Risk</text>
+<text x="287" y="378" text-anchor="middle" dominant-baseline="central" class="leaf-text">profile</text>
+</g>
+
+<!-- ============ Q2 BRANCH ============ -->
+<line x1="563" y1="186" x2="563" y2="216" class="conn"/>
+<line x1="421" y1="216" x2="705" y2="216" class="conn"/>
+<line x1="421" y1="216" x2="421" y2="236" class="conn"/>
+<line x1="563" y1="216" x2="563" y2="236" class="conn"/>
+<line x1="705" y1="216" x2="705" y2="236" class="conn"/>
+
+<g onclick="sendPrompt('How do we assess market attractiveness for each sustainable chemical pathway?')">
+<rect x="366" y="236" width="110" height="56" rx="8" class="b-box"/>
+<text x="421" y="256" text-anchor="middle" dominant-baseline="central" class="b-title">B1. Market</text>
+<text x="421" y="274" text-anchor="middle" dominant-baseline="central" class="b-sub">attractiveness</text>
+</g>
+
+<g onclick="sendPrompt('How do we assess technology readiness and feedstock feasibility for each pathway?')">
+<rect x="508" y="236" width="110" height="56" rx="8" class="b-box"/>
+<text x="563" y="256" text-anchor="middle" dominant-baseline="central" class="b-title">B2. Tech &amp;</text>
+<text x="563" y="274" text-anchor="middle" dominant-baseline="central" class="b-sub">feedstock fit</text>
+</g>
+
+<g onclick="sendPrompt('How do we evaluate strategic fit with AkChems existing assets for each pathway?')">
+<rect x="650" y="236" width="110" height="56" rx="8" class="b-box"/>
+<text x="705" y="256" text-anchor="middle" dominant-baseline="central" class="b-title">B3. Strategic</text>
+<text x="705" y="274" text-anchor="middle" dominant-baseline="central" class="b-sub">fit</text>
+</g>
+
+<!-- B1 leaves -->
+<line x1="421" y1="292" x2="421" y2="322" class="conn"/>
+<line x1="383" y1="322" x2="459" y2="322" class="conn"/>
+<line x1="383" y1="322" x2="383" y2="342" class="conn"/>
+<line x1="459" y1="322" x2="459" y2="342" class="conn"/>
+
+<g onclick="sendPrompt('What is the market size, growth, and demand trajectory for recycling-based, bio-based, and CO2-based chemicals?')">
+<rect x="350" y="342" width="66" height="56" rx="6" class="leaf-box"/>
+<text x="383" y="362" text-anchor="middle" dominant-baseline="central" class="leaf-text">Size &amp;</text>
+<text x="383" y="378" text-anchor="middle" dominant-baseline="central" class="leaf-text">growth</text>
+</g>
+<g onclick="sendPrompt('What premium pricing and margin uplift can sustainable chemicals command vs fossil-based?')">
+<rect x="426" y="342" width="66" height="56" rx="6" class="leaf-box"/>
+<text x="459" y="362" text-anchor="middle" dominant-baseline="central" class="leaf-text">Margin</text>
+<text x="459" y="378" text-anchor="middle" dominant-baseline="central" class="leaf-text">potential</text>
+</g>
+
+<!-- B2 leaves -->
+<line x1="563" y1="292" x2="563" y2="322" class="conn"/>
+<line x1="525" y1="322" x2="601" y2="322" class="conn"/>
+<line x1="525" y1="322" x2="525" y2="342" class="conn"/>
+<line x1="601" y1="322" x2="601" y2="342" class="conn"/>
+
+<g onclick="sendPrompt('How mature is the technology for mechanical recycling, chemical recycling, bio-based, and CO2-based pathways?')">
+<rect x="492" y="342" width="66" height="56" rx="6" class="leaf-box"/>
+<text x="525" y="362" text-anchor="middle" dominant-baseline="central" class="leaf-text">TRL &amp;</text>
+<text x="525" y="378" text-anchor="middle" dominant-baseline="central" class="leaf-text">maturity</text>
+</g>
+<g onclick="sendPrompt('How available and cost-competitive are feedstocks for each sustainable pathway in Europe?')">
+<rect x="568" y="342" width="66" height="56" rx="6" class="leaf-box"/>
+<text x="601" y="362" text-anchor="middle" dominant-baseline="central" class="leaf-text">Feedstock</text>
+<text x="601" y="378" text-anchor="middle" dominant-baseline="central" class="leaf-text">supply</text>
+</g>
+
+<!-- B3 leaves -->
+<line x1="705" y1="292" x2="705" y2="322" class="conn"/>
+<line x1="667" y1="322" x2="743" y2="322" class="conn"/>
+<line x1="667" y1="322" x2="667" y2="342" class="conn"/>
+<line x1="743" y1="322" x2="743" y2="342" class="conn"/>
+
+<g onclick="sendPrompt('How much CapEx and lead time does each pathway require, and how does that fit AkChems balance sheet?')">
+<rect x="634" y="342" width="66" height="56" rx="6" class="leaf-box"/>
+<text x="667" y="362" text-anchor="middle" dominant-baseline="central" class="leaf-text">CapEx</text>
+<text x="667" y="378" text-anchor="middle" dominant-baseline="central" class="leaf-text">&amp; speed</text>
+</g>
+<g onclick="sendPrompt('What is the GHG and circularity value proposition of each pathway for AkChem customers?')">
+<rect x="710" y="342" width="66" height="56" rx="6" class="leaf-box"/>
+<text x="743" y="362" text-anchor="middle" dominant-baseline="central" class="leaf-text">GHG</text>
+<text x="743" y="378" text-anchor="middle" dominant-baseline="central" class="leaf-text">value prop</text>
+</g>
+
+<!-- ============ Q3 BRANCH ============ -->
+<line x1="956" y1="186" x2="956" y2="216" class="conn"/>
+<line x1="877" y1="216" x2="1035" y2="216" class="conn"/>
+<line x1="877" y1="216" x2="877" y2="236" class="conn"/>
+<line x1="1035" y1="216" x2="1035" y2="236" class="conn"/>
+
+<g onclick="sendPrompt('How do we value the NPV of keeping each AkChem site in fossil-based production?')">
+<rect x="822" y="236" width="110" height="56" rx="8" class="o-box"/>
+<text x="877" y="256" text-anchor="middle" dominant-baseline="central" class="o-title">C1. Close /</text>
+<text x="877" y="274" text-anchor="middle" dominant-baseline="central" class="o-sub">keep fossil?</text>
+</g>
+
+<g onclick="sendPrompt('How do we build the DCF model for switching a site to sustainable chemicals?')">
+<rect x="980" y="236" width="110" height="56" rx="8" class="o-box"/>
+<text x="1035" y="256" text-anchor="middle" dominant-baseline="central" class="o-title">C2. Switch</text>
+<text x="1035" y="274" text-anchor="middle" dominant-baseline="central" class="o-sub">DCF per site</text>
+</g>
+
+<!-- C1 leaves -->
+<line x1="877" y1="292" x2="877" y2="322" class="conn"/>
+<line x1="839" y1="322" x2="915" y2="322" class="conn"/>
+<line x1="839" y1="322" x2="839" y2="342" class="conn"/>
+<line x1="915" y1="322" x2="915" y2="342" class="conn"/>
+
+<g onclick="sendPrompt('What are the DCF cash flows and NPV of continuing fossil-based production at Antwerp, Hamburg, and Barcelona?')">
+<rect x="806" y="342" width="66" height="56" rx="6" class="leaf-box"/>
+<text x="839" y="362" text-anchor="middle" dominant-baseline="central" class="leaf-text">Fossil</text>
+<text x="839" y="378" text-anchor="middle" dominant-baseline="central" class="leaf-text">NPV</text>
+</g>
+<g onclick="sendPrompt('What one-off closure costs (severance, decommissioning, remediation) apply if a site is shut?')">
+<rect x="882" y="342" width="66" height="56" rx="6" class="leaf-box"/>
+<text x="915" y="362" text-anchor="middle" dominant-baseline="central" class="leaf-text">Closure</text>
+<text x="915" y="378" text-anchor="middle" dominant-baseline="central" class="leaf-text">costs</text>
+</g>
+
+<!-- C2 leaves -->
+<line x1="1035" y1="292" x2="1035" y2="322" class="conn"/>
+<line x1="997" y1="322" x2="1073" y2="322" class="conn"/>
+<line x1="997" y1="322" x2="997" y2="342" class="conn"/>
+<line x1="1073" y1="322" x2="1073" y2="342" class="conn"/>
+
+<g onclick="sendPrompt('How do we model incremental revenue and NOPAT uplift from switching to sustainable chemicals per site?')">
+<rect x="964" y="342" width="66" height="56" rx="6" class="leaf-box"/>
+<text x="997" y="362" text-anchor="middle" dominant-baseline="central" class="leaf-text">Rev &amp;</text>
+<text x="997" y="378" text-anchor="middle" dominant-baseline="central" class="leaf-text">NOPAT</text>
+</g>
+<g onclick="sendPrompt('How do we model CapEx (EUR 250M + 4.5% annual) and subsidies (grants, CCfD, green loans) in the switch DCF?')">
+<rect x="1040" y="342" width="66" height="56" rx="6" class="leaf-box"/>
+<text x="1073" y="362" text-anchor="middle" dominant-baseline="central" class="leaf-text">CapEx</text>
+<text x="1073" y="378" text-anchor="middle" dominant-baseline="central" class="leaf-text">&amp; subsidy</text>
+</g>
+
+<!-- ============ ANSWERS ROW ============ -->
+<text x="563" y="432" text-anchor="middle" class="hint">&#8594; answers</text>
+
+<!-- Answer A -->
+<rect x="20" y="450" width="300" height="80" rx="8" class="g-box"/>
+<text x="170" y="470" text-anchor="middle" dominant-baseline="central" class="g-title">A: Key considerations</text>
+<text x="170" y="488" text-anchor="middle" class="g-sub">Regulation, carbon pricing, margin</text>
+<text x="170" y="504" text-anchor="middle" class="g-sub">pressure, asset readiness, tech risk</text>
+<text x="170" y="520" text-anchor="middle" class="g-sub">&#8594; urgency is high; risks are real</text>
+
+<!-- Answer B -->
+<rect x="355" y="450" width="420" height="80" rx="8" class="b-box"/>
+<text x="565" y="470" text-anchor="middle" dominant-baseline="central" class="b-title">B: Recommended pathway</text>
+<text x="565" y="488" text-anchor="middle" class="b-sub">Chemical recycling (high demand, regulatory pull,</text>
+<text x="565" y="504" text-anchor="middle" class="b-sub">viable CapEx, good GHG credentials)</text>
+
+<!-- Answer C -->
+<rect x="810" y="450" width="310" height="80" rx="8" class="o-box"/>
+<text x="965" y="470" text-anchor="middle" dominant-baseline="central" class="o-title">C: Site decision</text>
+<text x="965" y="488" text-anchor="middle" class="o-sub">Compare NPV(fossil) vs NPV(switch)</text>
+<text x="965" y="504" text-anchor="middle" class="o-sub">per site; switch where &#916;NPV &gt; 0</text>
+<text x="965" y="520" text-anchor="middle" class="o-sub">and close if both are negative</text>
+
+<!-- ============ DCF LOGIC BOX ============ -->
+<rect x="40" y="560" width="1060" height="120" rx="10" class="dcf-box"/>
+<text x="570" y="580" text-anchor="middle" dominant-baseline="central" class="dcf-title">DCF model logic (Q3 &#8212; the financial crux)</text>
+<text x="60" y="604" dominant-baseline="central" class="dcf-text">2026 revenue = avg(2023&#8211;25). Fossil: grow 1%/yr, EBIT margin per site, CapEx 4.5%/rev from 2026.</text>
+<text x="60" y="622" dominant-baseline="central" class="dcf-text">Switch: EUR 250M outflow 2026, grow 4%/yr, sustainable EBIT margin, CapEx 4.5%/rev from 2027.</text>
+<text x="60" y="640" dominant-baseline="central" class="dcf-text">FCF = NOPAT &#8722; CapEx  (D&amp;A = &#916;NWC so net zero). Discount to 2026 at site WACC. Horizon: 2050.</text>
+<text x="60" y="658" dominant-baseline="central" class="dcf-text">&#916;NPV = NPV(switch) &#8722; NPV(fossil). If &#916;NPV &gt; 0 &#8594; switch viable. Also compare vs closure costs.</text>
+
+<!-- ============ SITE DATA ============ -->
+<rect x="40" y="700" width="1060" height="160" rx="10" class="site-box"/>
+<text x="570" y="724" text-anchor="middle" dominant-baseline="central" class="site-title">Site data (Exhibit 17)</text>
+
+<!-- Headers -->
+<text x="120" y="754" dominant-baseline="central" class="site-text">Site</text>
+<text x="320" y="754" text-anchor="middle" dominant-baseline="central" class="site-text">Rev 2026E (avg, kEUR)</text>
+<text x="540" y="754" text-anchor="middle" dominant-baseline="central" class="site-text">EBIT margin F/S</text>
+<text x="740" y="754" text-anchor="middle" dominant-baseline="central" class="site-text">WACC</text>
+<text x="920" y="754" text-anchor="middle" dominant-baseline="central" class="site-text">Tax</text>
+<line x1="80" y1="766" x2="1060" y2="766" class="conn-light"/>
+
+<!-- Antwerp -->
+<text x="120" y="794" dominant-baseline="central" class="site-text">Antwerp</text>
+<text x="320" y="794" text-anchor="middle" dominant-baseline="central" class="site-text">535,650</text>
+<text x="540" y="794" text-anchor="middle" dominant-baseline="central" class="site-text">7% fossil / 8% sust.</text>
+<text x="740" y="794" text-anchor="middle" dominant-baseline="central" class="site-text">7.5%</text>
+<text x="920" y="794" text-anchor="middle" dominant-baseline="central" class="site-text">30%</text>
+
+<!-- Hamburg -->
+<text x="120" y="820" dominant-baseline="central" class="site-text">Hamburg</text>
+<text x="320" y="820" text-anchor="middle" dominant-baseline="central" class="site-text">653,812</text>
+<text x="540" y="820" text-anchor="middle" dominant-baseline="central" class="site-text">4% fossil / 9% sust.</text>
+<text x="740" y="820" text-anchor="middle" dominant-baseline="central" class="site-text">6.3%</text>
+<text x="920" y="820" text-anchor="middle" dominant-baseline="central" class="site-text">27%</text>
+
+<!-- Barcelona -->
+<text x="120" y="846" dominant-baseline="central" class="site-text">Barcelona</text>
+<text x="320" y="846" text-anchor="middle" dominant-baseline="central" class="site-text">253,609</text>
+<text x="540" y="846" text-anchor="middle" dominant-baseline="central" class="site-text">1% fossil / 10% sust.</text>
+<text x="740" y="846" text-anchor="middle" dominant-baseline="central" class="site-text">8.3%</text>
+<text x="920" y="846" text-anchor="middle" dominant-baseline="central" class="site-text">25%</text>
+
+<!-- ============ RECOMMENDATION ============ -->
+<rect x="40" y="890" width="1060" height="76" rx="10" class="rec-box"/>
+<text x="570" y="912" text-anchor="middle" dominant-baseline="central" class="rec-title">Headline recommendation</text>
+<text x="570" y="932" text-anchor="middle" dominant-baseline="central" class="rec-text">Prioritize chemical recycling. Switch sites where &#916;NPV(switch &#8722; fossil) &gt; 0 (Hamburg likely most attractive</text>
+<text x="570" y="950" text-anchor="middle" dominant-baseline="central" class="rec-text">given largest +5pp margin uplift). Close only if both fossil NPV and switch NPV are negative vs. closure costs.</text>
+
+<!-- ============ LEGEND ============ -->
+<text x="40" y="996" class="hint">Click any box to explore further &#8599;</text>
+<text x="1100" y="996" text-anchor="end" class="hint">MECE: Q1 = external/internal context &#183; Q2 = pathway choice &#183; Q3 = financial decision</text>
+
+</svg>
