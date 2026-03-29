@@ -3,822 +3,1109 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AkChem DCF Dashboard</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<title>AkChem Strategic Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
   :root {
-    --navy: #051c3b;
-    --navy-light: #0a2d5e;
-    --navy-dark: #030f20;
-    --accent: #4a90d9;
-    --accent-light: #6ba8ed;
-    --green: #2ecc71;
-    --green-dark: #1a9c54;
-    --red: #e74c3c;
-    --red-dark: #c0392b;
-    --amber: #f39c12;
+    --navy: #0a1628;
+    --navy-mid: #122040;
+    --blue: #1a56db;
+    --blue-light: #3b82f6;
+    --teal: #0d9488;
+    --teal-light: #14b8a6;
+    --amber: #f59e0b;
+    --rose: #f43f5e;
+    --green: #10b981;
+    --gray-900: #111827;
+    --gray-800: #1f2937;
+    --gray-700: #374151;
+    --gray-600: #4b5563;
+    --gray-400: #9ca3af;
+    --gray-200: #e5e7eb;
+    --gray-100: #f3f4f6;
     --white: #ffffff;
-    --off-white: #f7f8fa;
-    --gray-100: #f0f1f3;
-    --gray-200: #e2e4e8;
-    --gray-300: #c5c8ce;
-    --gray-500: #8a8f98;
-    --gray-700: #4a4e56;
-    --gray-900: #1a1c20;
-    --card-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-    --card-shadow-hover: 0 4px 12px rgba(0,0,0,0.08);
+    --card-bg: #16213e;
+    --card-border: rgba(59,130,246,0.15);
+    --fossil-color: #f59e0b;
+    --sustain-color: #14b8a6;
   }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--off-white);
-    color: var(--gray-900);
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* Header */
-  .header {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background: var(--navy);
-    padding: 28px 48px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .header h1 {
-    font-size: 22px;
-    font-weight: 600;
     color: var(--white);
-    letter-spacing: -0.3px;
-  }
-  .header .subtitle {
-    font-size: 13px;
-    color: var(--gray-300);
-    font-weight: 400;
-    margin-top: 2px;
-  }
-  .header .tag {
-    font-size: 11px;
-    color: var(--accent-light);
-    background: rgba(74,144,217,0.12);
-    padding: 5px 14px;
-    border-radius: 20px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    min-height: 100vh;
+    line-height: 1.5;
   }
 
-  /* Layout */
-  .container {
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 32px 48px 64px;
+  /* ─── Header ─── */
+  header {
+    background: linear-gradient(135deg, #0a1628 0%, #122040 60%, #1a2d50 100%);
+    border-bottom: 1px solid rgba(59,130,246,0.2);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .logo-dot {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue-light), var(--teal-light));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 14px; color: #fff;
+    box-shadow: 0 0 20px rgba(59,130,246,0.4);
+  }
+  .header-title h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+  .header-title p { font-size: 12px; color: var(--gray-400); }
+  .header-badge {
+    background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.3);
+    border-radius: 20px; padding: 4px 14px; font-size: 12px; color: var(--blue-light);
   }
 
-  /* Section titles */
-  .section-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--gray-500);
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    margin-bottom: 14px;
+  /* ─── Layout ─── */
+  .main { padding: 28px 32px; max-width: 1600px; margin: 0 auto; }
+
+  .section-title {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--gray-400);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+  }
+  .section-title::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, rgba(59,130,246,0.3), transparent);
   }
 
-  /* KPI Row */
-  .kpi-row {
+  /* ─── Summary Cards ─── */
+  .summary-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 16px;
     margin-bottom: 32px;
   }
-  .kpi-card {
-    background: var(--white);
-    border-radius: 10px;
-    padding: 22px 24px;
-    box-shadow: var(--card-shadow);
-    border: 1px solid var(--gray-200);
-    transition: box-shadow 0.2s;
+  .summary-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
   }
-  .kpi-card:hover { box-shadow: var(--card-shadow-hover); }
-  .kpi-label {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--gray-500);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 8px;
+  .summary-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
   }
-  .kpi-value {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    line-height: 1;
-  }
-  .kpi-sub {
-    font-size: 12px;
-    color: var(--gray-500);
-    margin-top: 6px;
-    font-weight: 400;
-  }
-  .positive { color: var(--green-dark); }
-  .negative { color: var(--red-dark); }
-  .neutral { color: var(--gray-700); }
+  .summary-card .label { font-size: 11px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+  .summary-card .value { font-size: 26px; font-weight: 700; }
+  .summary-card .sub { font-size: 12px; color: var(--gray-400); margin-top: 4px; }
+  .positive { color: var(--teal-light); }
+  .negative { color: var(--rose); }
+  .neutral { color: var(--amber); }
 
-  /* Grid */
-  .grid-2 {
-    display: grid;
-    grid-template-columns: 340px 1fr;
-    gap: 24px;
-    margin-bottom: 32px;
-  }
-  .grid-3 {
+  /* ─── Site Cards ─── */
+  .sites-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     margin-bottom: 32px;
   }
+  @media (max-width: 1100px) { .sites-grid { grid-template-columns: 1fr; } }
 
-  /* Cards */
-  .card {
-    background: var(--white);
+  .site-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+  }
+  .site-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+
+  .site-header {
+    padding: 16px 20px 12px;
+    background: linear-gradient(135deg, rgba(26,86,219,0.15), rgba(13,148,136,0.1));
+    border-bottom: 1px solid var(--card-border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .site-name { font-size: 16px; font-weight: 700; }
+  .site-country { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+  .site-flag { font-size: 22px; }
+
+  .site-body { padding: 20px; }
+
+  .npv-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px;
+  }
+  .npv-box {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
     border-radius: 10px;
-    padding: 24px;
-    box-shadow: var(--card-shadow);
-    border: 1px solid var(--gray-200);
+    padding: 12px;
+    text-align: center;
   }
-  .card-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--gray-900);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .card-title .dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    display: inline-block;
-  }
+  .npv-box .npv-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--gray-400); margin-bottom: 4px; }
+  .npv-box .npv-value { font-size: 18px; font-weight: 700; }
 
-  /* Sliders */
-  .slider-group {
-    margin-bottom: 18px;
+  .recommendation {
+    border-radius: 8px; padding: 8px 12px; font-size: 12px; font-weight: 600;
+    text-align: center; margin-bottom: 18px;
   }
-  .slider-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 6px;
+  .rec-fossil { background: rgba(245,158,11,0.12); color: var(--amber); border: 1px solid rgba(245,158,11,0.25); }
+  .rec-sustain { background: rgba(20,184,166,0.12); color: var(--teal-light); border: 1px solid rgba(20,184,166,0.25); }
+  .rec-close { background: rgba(244,63,94,0.12); color: var(--rose); border: 1px solid rgba(244,63,94,0.25); }
+
+  /* ─── Parameter Controls ─── */
+  .params-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
   }
-  .slider-label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--gray-700);
+  .param-group { }
+  .param-group label {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 11px; color: var(--gray-400); margin-bottom: 4px;
   }
-  .slider-value {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--navy);
-    background: var(--gray-100);
-    padding: 2px 10px;
-    border-radius: 4px;
-    font-variant-numeric: tabular-nums;
+  .param-group label span {
+    font-size: 12px; font-weight: 700;
+    color: var(--white);
+    background: rgba(59,130,246,0.15);
+    padding: 1px 6px; border-radius: 4px;
   }
   input[type="range"] {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: 4px;
-    background: var(--gray-200);
-    border-radius: 4px;
-    outline: none;
-    cursor: pointer;
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px; outline: none; cursor: pointer;
   }
   input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 16px; height: 16px;
-    background: var(--navy);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: transform 0.15s;
+    -webkit-appearance: none; appearance: none;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--blue-light);
+    box-shadow: 0 0 8px rgba(59,130,246,0.5);
+    cursor: pointer; transition: transform 0.15s;
   }
-  input[type="range"]::-webkit-slider-thumb:hover {
-    transform: scale(1.2);
-  }
-  input[type="range"]::-moz-range-thumb {
-    width: 16px; height: 16px;
-    background: var(--navy);
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-  }
+  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
 
-  /* Site selector */
-  .site-tabs {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 20px;
+  .scenario-tabs {
+    display: flex; gap: 6px; margin-bottom: 14px;
   }
-  .site-tab {
-    padding: 8px 20px;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    border: 1px solid var(--gray-200);
-    background: var(--white);
-    color: var(--gray-700);
-    transition: all 0.15s;
+  .tab-btn {
+    flex: 1; padding: 6px; border: 1px solid var(--card-border);
+    border-radius: 8px; background: transparent; color: var(--gray-400);
+    font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.15s;
+    text-transform: uppercase; letter-spacing: 0.5px;
   }
-  .site-tab:hover { border-color: var(--gray-300); }
-  .site-tab.active {
-    background: var(--navy);
-    color: var(--white);
-    border-color: var(--navy);
-  }
+  .tab-btn.active-fossil { background: rgba(245,158,11,0.15); color: var(--amber); border-color: rgba(245,158,11,0.3); }
+  .tab-btn.active-sustain { background: rgba(20,184,166,0.15); color: var(--teal-light); border-color: rgba(20,184,166,0.3); }
 
-  /* Decision badge */
-  .decision-badge {
-    display: inline-block;
-    padding: 4px 14px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-  .badge-switch { background: rgba(46,204,113,0.1); color: var(--green-dark); }
-  .badge-keep { background: rgba(74,144,217,0.1); color: var(--accent); }
-  .badge-close { background: rgba(231,76,60,0.1); color: var(--red-dark); }
-
-  /* NPV bar chart area */
-  .npv-bar-row {
+  /* ─── Charts Section ─── */
+  .charts-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
     margin-bottom: 32px;
   }
-  .npv-site-card {
-    background: var(--white);
-    border-radius: 10px;
-    padding: 24px;
-    box-shadow: var(--card-shadow);
-    border: 1px solid var(--gray-200);
-    text-align: center;
+  @media (max-width: 900px) { .charts-grid { grid-template-columns: 1fr; } }
+
+  .chart-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 20px;
   }
-  .npv-site-name {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--gray-700);
-    margin-bottom: 4px;
+  .chart-title {
+    font-size: 14px; font-weight: 700; margin-bottom: 4px;
   }
-  .npv-site-value {
-    font-size: 32px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    margin: 8px 0;
+  .chart-subtitle { font-size: 11px; color: var(--gray-400); margin-bottom: 16px; }
+  .chart-container { position: relative; }
+
+  /* ─── Global Parameters ─── */
+  .global-params {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 32px;
   }
-  .npv-site-detail {
-    font-size: 11px;
-    color: var(--gray-500);
-    line-height: 1.6;
+  .global-params-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;
+  }
+  .global-param-item label {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; color: var(--gray-400); margin-bottom: 6px;
+  }
+  .global-param-item label .val {
+    font-weight: 700; color: var(--white);
+    background: rgba(20,184,166,0.15); padding: 1px 8px; border-radius: 4px;
+    color: var(--teal-light);
   }
 
-  /* Chart canvas */
-  .chart-wrap {
-    position: relative;
-    width: 100%;
-    height: 280px;
+  /* ─── Case Explanation ─── */
+  .case-section {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 32px;
   }
-  .chart-wrap-tall {
-    position: relative;
-    width: 100%;
-    height: 340px;
+  .case-toggle {
+    width: 100%; background: none; border: none; cursor: pointer;
+    padding: 18px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    color: var(--white); text-align: left;
+    transition: background 0.2s;
+  }
+  .case-toggle:hover { background: rgba(255,255,255,0.03); }
+  .case-toggle-left { display: flex; align-items: center; gap: 12px; }
+  .case-toggle-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: linear-gradient(135deg, rgba(26,86,219,0.3), rgba(13,148,136,0.3));
+    border: 1px solid rgba(59,130,246,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+  }
+  .case-toggle-title { font-size: 14px; font-weight: 700; }
+  .case-toggle-sub { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+  .case-chevron {
+    font-size: 12px; color: var(--gray-400);
+    transition: transform 0.25s;
+  }
+  .case-chevron.open { transform: rotate(180deg); }
+
+  .case-body {
+    display: none; padding: 0 24px 24px;
+    border-top: 1px solid var(--card-border);
+  }
+  .case-body.open { display: block; }
+
+  .case-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .case-block {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px; padding: 16px;
+  }
+  .case-block-title {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+  }
+  .case-block ul { list-style: none; padding: 0; }
+  .case-block ul li {
+    font-size: 12px; color: var(--gray-400);
+    padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex; gap: 8px; align-items: flex-start;
+  }
+  .case-block ul li:last-child { border-bottom: none; }
+  .case-block ul li .bullet {
+    min-width: 6px; height: 6px; border-radius: 50%; margin-top: 5px;
+    background: var(--blue-light); flex-shrink: 0;
+  }
+  .case-block ul li strong { color: var(--white); }
+
+  .case-kpi-row {
+    display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px;
+  }
+  .case-kpi {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px; padding: 10px 16px; text-align: center;
+  }
+  .case-kpi .k-val { font-size: 20px; font-weight: 800; }
+  .case-kpi .k-lbl { font-size: 10px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.6px; margin-top: 2px; }
+
+  .pathway-table {
+    width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 10px;
+  }
+  .pathway-table th {
+    text-align: left; color: var(--gray-400); font-weight: 600;
+    padding: 6px 8px; border-bottom: 1px solid rgba(255,255,255,0.08);
+    text-transform: uppercase; letter-spacing: 0.6px; font-size: 10px;
+  }
+  .pathway-table td {
+    padding: 7px 8px; border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--gray-400);
+  }
+  .pathway-table tr:last-child td { border-bottom: none; }
+  .pathway-table td:first-child { color: var(--white); font-weight: 500; }
+  .pill {
+    display: inline-block; border-radius: 4px; padding: 1px 7px; font-size: 10px; font-weight: 600;
+  }
+  .pill-high   { background: rgba(16,185,129,0.15); color: #34d399; }
+  .pill-med    { background: rgba(245,158,11,0.15);  color: #fbbf24; }
+  .pill-low    { background: rgba(244,63,94,0.15);   color: #fb7185; }
+  .pill-short  { background: rgba(59,130,246,0.15);  color: #93c5fd; }
+  .pill-mid    { background: rgba(167,139,250,0.15); color: #c4b5fd; }
+  .pill-long   { background: rgba(156,163,175,0.15); color: #d1d5db; }
+
+  .margin-collapse {
+    display: flex; align-items: flex-end; gap: 3px; height: 56px; margin-top: 8px;
+    margin-bottom: 24px;
+  }
+  .bar-yr {
+    flex: 1; border-radius: 3px 3px 0 0; position: relative;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    transition: opacity 0.2s;
+  }
+  .bar-yr:hover { opacity: 0.85; }
+  .bar-yr .tip {
+    display: none; position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%);
+    background: rgba(10,22,40,0.95); border: 1px solid rgba(59,130,246,0.3);
+    border-radius: 6px; padding: 4px 8px; font-size: 10px; white-space: nowrap; color: #fff;
+    pointer-events: none; z-index: 10;
+  }
+  .bar-yr:hover .tip { display: block; }
+  .bar-label {
+    font-size: 9px; color: var(--gray-400); text-align: center;
+    position: absolute; bottom: -16px; left: 0; right: 0;
   }
 
-  /* Footer */
-  .footer {
-    text-align: center;
-    padding: 24px;
-    font-size: 11px;
-    color: var(--gray-500);
-    border-top: 1px solid var(--gray-200);
-    margin-top: 32px;
+  /* ─── Footer ─── */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 16px 32px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 8px;
+    color: var(--gray-400); font-size: 11px;
   }
 
-  /* Divider */
-  .divider {
-    height: 1px;
-    background: var(--gray-200);
-    margin: 8px 0 28px;
+  /* ─── Tooltip ─── */
+  .tooltip-wrap { position: relative; display: inline-block; }
+  .tooltip-icon {
+    width: 14px; height: 14px; border-radius: 50%;
+    background: rgba(255,255,255,0.1); font-size: 9px;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: help; color: var(--gray-400);
   }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div>
-    <h1>AkChem DCF Simulation</h1>
-    <div class="subtitle">Interactive scenario analysis &mdash; Fossil vs. Sustainable switch</div>
+<header>
+  <div class="header-left">
+    <div class="logo-dot">AC</div>
+    <div class="header-title">
+      <h1>AkChem Strategic Dashboard</h1>
+      <p>McKinsey Leuven Case Competition · DCF Scenario Modeller</p>
+    </div>
   </div>
-  <div class="tag">Live Model</div>
+  <div class="header-badge">Forecast 2026–2050</div>
+</header>
+
+<div class="main">
+
+  <!-- ─── CASE EXPLANATION ─── -->
+  <p class="section-title">Case Overview</p>
+  <div class="case-section">
+    <button class="case-toggle" onclick="toggleCase()">
+      <div class="case-toggle-left">
+        <div class="case-toggle-icon">📋</div>
+        <div>
+          <div class="case-toggle-title">Future Proofing AkChem — Case Background</div>
+          <div class="case-toggle-sub">McKinsey Leuven Case Competition · March 2026 · Click to expand</div>
+        </div>
+      </div>
+      <div class="case-chevron" id="case-chevron">▼</div>
+    </button>
+
+    <div class="case-body" id="case-body">
+
+      <!-- KPI strip -->
+      <div class="case-kpi-row">
+        <div class="case-kpi">
+          <div class="k-val" style="color:var(--blue-light)">10.2B</div>
+          <div class="k-lbl">Revenue 2024 (EUR)</div>
+        </div>
+        <div class="case-kpi">
+          <div class="k-val" style="color:var(--teal-light)">18,000</div>
+          <div class="k-lbl">Employees</div>
+        </div>
+        <div class="case-kpi">
+          <div class="k-val" style="color:var(--rose)">7%</div>
+          <div class="k-lbl">EBITDA margin 2024</div>
+        </div>
+        <div class="case-kpi">
+          <div class="k-val" style="color:var(--amber)">24%</div>
+          <div class="k-lbl">EBITDA margin 2017</div>
+        </div>
+        <div class="case-kpi">
+          <div class="k-val" style="color:var(--rose)">−17pp</div>
+          <div class="k-lbl">Margin decline</div>
+        </div>
+        <div class="case-kpi">
+          <div class="k-val" style="color:var(--gray-400)">80+</div>
+          <div class="k-lbl">Years of experience</div>
+        </div>
+      </div>
+
+      <!-- EBITDA margin mini bar chart -->
+      <div style="margin-top:20px;margin-bottom:4px;font-size:11px;color:var(--gray-400);font-weight:600;text-transform:uppercase;letter-spacing:0.8px;">EBITDA Margin Collapse (2017–2024)</div>
+      <div class="margin-collapse" id="margin-bars"></div>
+
+      <div class="case-grid">
+
+        <!-- Context & Problem -->
+        <div class="case-block">
+          <div class="case-block-title" style="color:var(--blue-light)">
+            <span>🏭</span> Client & Problem
+          </div>
+          <ul>
+            <li><div class="bullet"></div><div>European specialty &amp; commodity chemicals producer, HQ <strong>Cologne, Germany</strong></div></li>
+            <li><div class="bullet"></div><div>EBITDA margin collapsed from <strong>24% → 7%</strong> between 2017 and 2024</div></li>
+            <li><div class="bullet"></div><div>EBIT margin fell from <strong>19% → 1%</strong> — near breakeven</div></li>
+            <li><div class="bullet"></div><div>Driven by: <strong>energy cost spike</strong> (Russia/Ukraine), <strong>low utilisation</strong> (79% → 64% EU), compressed margins</div></li>
+            <li><div class="bullet"></div><div>EU carbon pricing now covers <strong>28%</strong> of global GHG (rising to 44% by 2040)</div></li>
+          </ul>
+        </div>
+
+        <!-- The 3 strategic questions -->
+        <div class="case-block">
+          <div class="case-block-title" style="color:var(--teal-light)">
+            <span>❓</span> Three Strategic Questions
+          </div>
+          <ul>
+            <li><div class="bullet" style="background:var(--teal-light)"></div><div><strong>Q1</strong> — What elements should AkChem consider when moving to sustainable chemicals?</div></li>
+            <li><div class="bullet" style="background:var(--teal-light)"></div><div><strong>Q2</strong> — Which sustainable pathway should AkChem prioritise?</div></li>
+            <li><div class="bullet" style="background:var(--teal-light)"></div><div><strong>Q3</strong> — Should AkChem close any fossil-based sites, and does switching make financial sense? <em>(this dashboard)</em></div></li>
+          </ul>
+        </div>
+
+        <!-- Regulatory tailwinds -->
+        <div class="case-block">
+          <div class="case-block-title" style="color:var(--amber)">
+            <span>⚖️</span> Regulatory Tailwinds
+          </div>
+          <ul>
+            <li><div class="bullet" style="background:var(--amber)"></div><div><strong>EU PPWR</strong> mandates 30–65% recycled content in packaging by 2030/2040</div></li>
+            <li><div class="bullet" style="background:var(--amber)"></div><div><strong>66%</strong> of plastic-use companies have committed to ambitious GHG targets</div></li>
+            <li><div class="bullet" style="background:var(--amber)"></div><div>Carbon pricing rising steeply — reaching ~44% of global GHG by 2040</div></li>
+            <li><div class="bullet" style="background:var(--amber)"></div><div>Structural energy cost increase post-2022 raises fossil feedstock costs permanently</div></li>
+          </ul>
+        </div>
+
+        <!-- DCF Model assumptions -->
+        <div class="case-block">
+          <div class="case-block-title" style="color:var(--blue-light)">
+            <span>📐</span> DCF Model Assumptions
+          </div>
+          <ul>
+            <li><div class="bullet"></div><div>Baseline revenue = <strong>avg(2023, 2024, 2025)</strong> per site</div></li>
+            <li><div class="bullet"></div><div>Forecast horizon: <strong>2026–2050</strong> (25 years)</div></li>
+            <li><div class="bullet"></div><div>Fossil: <strong>+1%/yr</strong> revenue growth, no upfront investment</div></li>
+            <li><div class="bullet"></div><div>Sustainable: <strong>EUR 250M</strong> investment in 2026, <strong>+4%/yr</strong> growth from 2027</div></li>
+            <li><div class="bullet"></div><div>CapEx = <strong>4.5% of revenue</strong> each year (both scenarios)</div></li>
+            <li><div class="bullet"></div><div>Depreciation ≈ ΔNWC → neither included in FCF</div></li>
+          </ul>
+        </div>
+
+        <!-- Sustainable pathways table -->
+        <div class="case-block" style="grid-column: span 2;">
+          <div class="case-block-title" style="color:var(--teal-light)">
+            <span>♻</span> Sustainable Pathway Comparison
+          </div>
+          <table class="pathway-table">
+            <thead>
+              <tr>
+                <th>Pathway</th>
+                <th>GHG Intensity (tCO₂e/t)</th>
+                <th>vs Fossil (5.1)</th>
+                <th>Tech Maturity</th>
+                <th>Time to Market</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Mechanical recycling</td>
+                <td>0.3</td>
+                <td style="color:var(--teal-light)">−94%</td>
+                <td><span class="pill pill-high">High</span></td>
+                <td><span class="pill pill-short">1–3 yrs</span></td>
+              </tr>
+              <tr>
+                <td>Carbon capture (CCS)</td>
+                <td>0.5</td>
+                <td style="color:var(--teal-light)">−90%</td>
+                <td><span class="pill pill-low">Low</span></td>
+                <td><span class="pill pill-long">5–10 yrs</span></td>
+              </tr>
+              <tr>
+                <td>Bio-based feedstock</td>
+                <td>1.4</td>
+                <td style="color:var(--teal-light)">−73%</td>
+                <td><span class="pill pill-med">Medium</span></td>
+                <td><span class="pill pill-mid">2–8 yrs</span></td>
+              </tr>
+              <tr>
+                <td>Chemical recycling</td>
+                <td>2.1</td>
+                <td style="color:var(--teal-light)">−59%</td>
+                <td><span class="pill pill-med">Medium</span></td>
+                <td><span class="pill pill-mid">2–8 yrs</span></td>
+              </tr>
+              <tr>
+                <td>Bio-intermediary (bioethanol)</td>
+                <td>3.8</td>
+                <td style="color:var(--amber)">−25%</td>
+                <td><span class="pill pill-high">High</span></td>
+                <td><span class="pill pill-mid">2–8 yrs</span></td>
+              </tr>
+              <tr style="background:rgba(255,255,255,0.02)">
+                <td style="color:var(--gray-400)">Fossil baseline (as-is)</td>
+                <td style="color:var(--rose)">5.1</td>
+                <td style="color:var(--gray-400)">—</td>
+                <td><span class="pill pill-high">High</span></td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── GLOBAL PARAMETERS ─── -->
+  <p class="section-title">Global Parameters</p>
+  <div class="global-params">
+    <div class="global-params-grid">
+      <div class="global-param-item">
+        <label>Investment (Sustainable Switch, MEUR)
+          <span class="val" id="g-invest-val">250</span></label>
+        <input type="range" id="g-invest" min="100" max="500" step="10" value="250">
+      </div>
+      <div class="global-param-item">
+        <label>Fossil Revenue Growth (%/yr)
+          <span class="val" id="g-fg-val">1.0</span></label>
+        <input type="range" id="g-fg" min="0" max="4" step="0.1" value="1.0">
+      </div>
+      <div class="global-param-item">
+        <label>Sustainable Revenue Growth (%/yr)
+          <span class="val" id="g-sg-val">4.0</span></label>
+        <input type="range" id="g-sg" min="2" max="8" step="0.1" value="4.0">
+      </div>
+      <div class="global-param-item">
+        <label>CapEx as % of Revenue
+          <span class="val" id="g-capex-val">4.5</span></label>
+        <input type="range" id="g-capex" min="2" max="8" step="0.1" value="4.5">
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SUMMARY CARDS ─── -->
+  <p class="section-title">Portfolio Overview</p>
+  <div class="summary-grid">
+    <div class="summary-card">
+      <div class="label">Total Portfolio NPV (Best)</div>
+      <div class="value" id="sum-total-npv">—</div>
+      <div class="sub">Sum of recommended scenarios</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Sites to Switch Sustainable</div>
+      <div class="value neutral" id="sum-switch">—</div>
+      <div class="sub">Where NPV(sustain) > NPV(fossil)</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Sites Recommended for Closure</div>
+      <div class="value negative" id="sum-close">—</div>
+      <div class="sub">Both scenarios NPV negative</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Total Required Investment</div>
+      <div class="value" id="sum-invest">—</div>
+      <div class="sub">EUR for sustainable switches</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Value at Stake (Switch vs Fossil)</div>
+      <div class="value" id="sum-stake">—</div>
+      <div class="sub">Cumulative NPV delta</div>
+    </div>
+  </div>
+
+  <!-- ─── SITE CARDS ─── -->
+  <p class="section-title">Site-Level Analysis</p>
+  <div class="sites-grid" id="sites-grid">
+    <!-- injected by JS -->
+  </div>
+
+  <!-- ─── CHARTS ─── -->
+  <p class="section-title">Visual Analysis</p>
+  <div class="charts-grid">
+    <div class="chart-card">
+      <div class="chart-title">NPV Comparison by Site</div>
+      <div class="chart-subtitle">Fossil vs Sustainable NPV (MEUR)</div>
+      <div class="chart-container"><canvas id="chart-npv" height="220"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Free Cash Flow Over Time</div>
+      <div class="chart-subtitle">FCF by site under recommended scenario (MEUR)</div>
+      <div class="chart-container"><canvas id="chart-fcf" height="220"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Revenue Trajectory</div>
+      <div class="chart-subtitle">Projected revenue 2026–2050 by site (MEUR)</div>
+      <div class="chart-container"><canvas id="chart-rev" height="220"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Cumulative FCF — Fossil vs Sustainable</div>
+      <div class="chart-subtitle">All three sites combined</div>
+      <div class="chart-container"><canvas id="chart-cum" height="220"></canvas></div>
+    </div>
+  </div>
+
 </div>
 
-<div class="container">
-
-  <!-- KPI Row -->
-  <div class="section-label">Portfolio overview</div>
-  <div class="kpi-row">
-    <div class="kpi-card">
-      <div class="kpi-label">Best site &Delta;NPV</div>
-      <div class="kpi-value positive" id="kpi-best">+181M</div>
-      <div class="kpi-sub" id="kpi-best-site">Hamburg &mdash; Switch</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Total portfolio &Delta;NPV</div>
-      <div class="kpi-value" id="kpi-total">+40M</div>
-      <div class="kpi-sub">Sum of all three sites</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Sites to switch</div>
-      <div class="kpi-value neutral" id="kpi-switch-count">1</div>
-      <div class="kpi-sub" id="kpi-switch-names">Hamburg</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Total investment required</div>
-      <div class="kpi-value neutral" id="kpi-investment">250M</div>
-      <div class="kpi-sub">EUR, for viable switches only</div>
-    </div>
-  </div>
-
-  <!-- Site Decision Cards -->
-  <div class="section-label">Site-level decisions</div>
-  <div class="npv-bar-row" id="site-decision-cards"></div>
-
-  <!-- Controls + Charts -->
-  <div class="section-label">Scenario parameters &amp; projections</div>
-  <div class="grid-2">
-    <!-- Sliders -->
-    <div class="card" style="align-self: start;">
-      <div class="card-title">Assumptions</div>
-
-      <div class="site-tabs" id="site-tabs">
-        <div class="site-tab active" onclick="selectSite(0)">Antwerp</div>
-        <div class="site-tab" onclick="selectSite(1)">Hamburg</div>
-        <div class="site-tab" onclick="selectSite(2)">Barcelona</div>
-      </div>
-
-      <div class="slider-group">
-        <div class="slider-header">
-          <span class="slider-label">Fossil EBIT margin</span>
-          <span class="slider-value" id="v-fossil-margin">7%</span>
-        </div>
-        <input type="range" id="s-fossil-margin" min="0" max="20" step="0.5" value="7" oninput="onSlider()">
-      </div>
-      <div class="slider-group">
-        <div class="slider-header">
-          <span class="slider-label">Sustainable EBIT margin</span>
-          <span class="slider-value" id="v-sust-margin">8%</span>
-        </div>
-        <input type="range" id="s-sust-margin" min="0" max="25" step="0.5" value="8" oninput="onSlider()">
-      </div>
-      <div class="slider-group">
-        <div class="slider-header">
-          <span class="slider-label">Fossil revenue growth</span>
-          <span class="slider-value" id="v-fossil-growth">1.0%</span>
-        </div>
-        <input type="range" id="s-fossil-growth" min="-3" max="5" step="0.1" value="1" oninput="onSlider()">
-      </div>
-      <div class="slider-group">
-        <div class="slider-header">
-          <span class="slider-label">Sustainable revenue growth</span>
-          <span class="slider-value" id="v-sust-growth">4.0%</span>
-        </div>
-        <input type="range" id="s-sust-growth" min="0" max="10" step="0.1" value="4" oninput="onSlider()">
-      </div>
-      <div class="slider-group">
-        <div class="slider-header">
-          <span class="slider-label">WACC</span>
-          <span class="slider-value" id="v-wacc">7.5%</span>
-        </div>
-        <input type="range" id="s-wacc" min="3" max="15" step="0.1" value="7.5" oninput="onSlider()">
-      </div>
-      <div class="slider-group">
-        <div class="slider-header">
-          <span class="slider-label">Tax rate</span>
-          <span class="slider-value" id="v-tax">30%</span>
-        </div>
-        <input type="range" id="s-tax" min="15" max="40" step="0.5" value="30" oninput="onSlider()">
-      </div>
-      <div class="slider-group">
-        <div class="slider-header">
-          <span class="slider-label">CapEx (% of revenue)</span>
-          <span class="slider-value" id="v-capex">4.5%</span>
-        </div>
-        <input type="range" id="s-capex" min="2" max="10" step="0.1" value="4.5" oninput="onSlider()">
-      </div>
-      <div class="slider-group">
-        <div class="slider-header">
-          <span class="slider-label">Switch investment (EUR M)</span>
-          <span class="slider-value" id="v-invest">250</span>
-        </div>
-        <input type="range" id="s-invest" min="100" max="500" step="10" value="250" oninput="onSlider()">
-      </div>
-    </div>
-
-    <!-- Charts -->
-    <div style="display:flex; flex-direction:column; gap:20px;">
-      <div class="card">
-        <div class="card-title"><span class="dot" style="background:var(--navy)"></span>Revenue projection</div>
-        <div class="chart-wrap"><canvas id="chart-revenue"></canvas></div>
-      </div>
-      <div class="card">
-        <div class="card-title"><span class="dot" style="background:var(--accent)"></span>Cumulative discounted FCF</div>
-        <div class="chart-wrap"><canvas id="chart-cum-fcf"></canvas></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- NPV comparison -->
-  <div class="section-label">NPV comparison across all sites</div>
-  <div class="grid-3">
-    <div class="card" style="grid-column: span 2;">
-      <div class="card-title"><span class="dot" style="background:var(--green)"></span>&Delta;NPV by site (Switch &minus; Fossil)</div>
-      <div class="chart-wrap-tall"><canvas id="chart-delta-npv"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-title"><span class="dot" style="background:var(--navy)"></span>NPV breakdown</div>
-      <div class="chart-wrap-tall"><canvas id="chart-npv-breakdown"></canvas></div>
-    </div>
-  </div>
-
-  <div class="footer">
-    AkChem DCF Simulation &mdash; Leuven Case Competition 2026 &mdash; All values in kEUR unless noted
-  </div>
-</div>
+<footer>
+  <span>AkChem DCF Dashboard · McKinsey Leuven 2026</span>
+  <span>All figures in EUR thousands unless stated · WACC, tax & margins editable per site</span>
+</footer>
 
 <script>
-// === DATA ===
+// ─────────────────────────────────────────────────────────────
+//  DATA STORE
+// ─────────────────────────────────────────────────────────────
 const SITES = [
   {
-    name: 'Antwerp', rev_hist: [560095, 536721, 510134],
-    wacc: 7.5, tax: 30, fossil_margin: 7, sust_margin: 8,
-    fossil_growth: 1, sust_growth: 4, capex_pct: 4.5, investment: 250
+    id: 'antwerp',
+    name: 'Antwerp',
+    country: 'Belgium',
+    flag: '🇧🇪',
+    rev: { 2023: 560095, 2024: 536721, 2025: 510134 },
+    fossil:  { wacc: 7.5, tax: 30, ebit: 7  },
+    sustain: { wacc: 7.5, tax: 30, ebit: 8  },
   },
   {
-    name: 'Hamburg', rev_hist: [651174, 686502, 623760],
-    wacc: 6.3, tax: 27, fossil_margin: 4, sust_margin: 9,
-    fossil_growth: 1, sust_growth: 4, capex_pct: 4.5, investment: 250
+    id: 'hamburg',
+    name: 'Hamburg',
+    country: 'Germany',
+    flag: '🇩🇪',
+    rev: { 2023: 651174, 2024: 686502, 2025: 623760 },
+    fossil:  { wacc: 6.3, tax: 27, ebit: 4  },
+    sustain: { wacc: 6.3, tax: 27, ebit: 9  },
   },
   {
-    name: 'Barcelona', rev_hist: [231056, 273636, 256134],
-    wacc: 8.3, tax: 25, fossil_margin: 1, sust_margin: 10,
-    fossil_growth: 1, sust_growth: 4, capex_pct: 4.5, investment: 250
-  }
+    id: 'barcelona',
+    name: 'Barcelona',
+    country: 'Spain',
+    flag: '🇪🇸',
+    rev: { 2023: 231056, 2024: 273636, 2025: 256134 },
+    fossil:  { wacc: 8.3, tax: 25, ebit: 1  },
+    sustain: { wacc: 8.3, tax: 25, ebit: 10 },
+  },
 ];
 
-let currentSite = 0;
-const years = [];
-for (let y = 2026; y <= 2050; y++) years.push(y);
-
-// === DCF ENGINE ===
-function runDCF(site) {
-  const rev2026 = (site.rev_hist[0] + site.rev_hist[1] + site.rev_hist[2]) / 3;
-  const wacc = site.wacc / 100;
-  const tax = site.tax / 100;
-  const fm = site.fossil_margin / 100;
-  const sm = site.sust_margin / 100;
-  const fg = site.fossil_growth / 100;
-  const sg = site.sust_growth / 100;
-  const cp = site.capex_pct / 100;
-  const inv = site.investment * 1000; // kEUR
-
-  const fossil = { rev: [], fcf: [], disc_fcf: [], cum_disc_fcf: [], npv: 0 };
-  const sust = { rev: [], fcf: [], disc_fcf: [], cum_disc_fcf: [], npv: 0 };
-
-  let cum_f = 0, cum_s = 0;
-
-  for (let t = 0; t < 25; t++) {
-    // Fossil
-    const f_rev = rev2026 * Math.pow(1 + fg, t);
-    const f_ebit = f_rev * fm;
-    const f_nopat = f_ebit * (1 - tax);
-    const f_capex = f_rev * cp;
-    const f_fcf = f_nopat - f_capex;
-    const f_disc = 1 / Math.pow(1 + wacc, t);
-    const f_disc_fcf = f_fcf * f_disc;
-    cum_f += f_disc_fcf;
-
-    fossil.rev.push(f_rev);
-    fossil.fcf.push(f_fcf);
-    fossil.disc_fcf.push(f_disc_fcf);
-    fossil.cum_disc_fcf.push(cum_f);
-    fossil.npv += f_disc_fcf;
-
-    // Sustainable
-    const s_rev = rev2026 * Math.pow(1 + sg, t);
-    const s_ebit = s_rev * sm;
-    const s_nopat = s_ebit * (1 - tax);
-    const s_capex = t === 0 ? inv : s_rev * cp;
-    const s_fcf = s_nopat - s_capex;
-    const s_disc = 1 / Math.pow(1 + wacc, t);
-    const s_disc_fcf = s_fcf * s_disc;
-    cum_s += s_disc_fcf;
-
-    sust.rev.push(s_rev);
-    sust.fcf.push(s_fcf);
-    sust.disc_fcf.push(s_disc_fcf);
-    sust.cum_disc_fcf.push(cum_s);
-    sust.npv += s_disc_fcf;
-  }
-
-  return { fossil, sust, delta: sust.npv - fossil.npv, rev2026 };
-}
-
-// === FORMATTING ===
-function fmtM(v) {
-  const m = v / 1000;
-  const sign = m >= 0 ? '+' : '';
-  return sign + m.toFixed(0) + 'M';
-}
-function fmtMabs(v) {
-  return (v / 1000).toFixed(0) + 'M';
-}
-
-// === CHARTS ===
-const chartOpts = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      position: 'top',
-      align: 'end',
-      labels: {
-        usePointStyle: true,
-        pointStyle: 'circle',
-        padding: 16,
-        font: { family: 'Inter', size: 11, weight: '500' },
-        color: '#8a8f98'
-      }
-    },
-    tooltip: {
-      backgroundColor: '#051c3b',
-      titleFont: { family: 'Inter', size: 12 },
-      bodyFont: { family: 'Inter', size: 11 },
-      padding: 12,
-      cornerRadius: 6,
-      callbacks: {
-        label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y / 1000).toFixed(0) + 'M EUR'
-      }
-    }
-  },
-  scales: {
-    x: {
-      grid: { display: false },
-      ticks: { font: { family: 'Inter', size: 10 }, color: '#c5c8ce', maxTicksLimit: 10 },
-      border: { display: false }
-    },
-    y: {
-      grid: { color: '#f0f1f3', drawBorder: false },
-      ticks: {
-        font: { family: 'Inter', size: 10 }, color: '#c5c8ce',
-        callback: v => (v/1000).toFixed(0) + 'M'
-      },
-      border: { display: false }
-    }
-  },
-  elements: {
-    point: { radius: 0, hoverRadius: 4 },
-    line: { tension: 0.3, borderWidth: 2 }
-  }
+// Global params (user-editable)
+const G = {
+  invest:   250000,  // kEUR
+  fGrowth:  0.01,
+  sGrowth:  0.04,
+  capex:    0.045,
 };
 
-let chartRevenue, chartCumFCF, chartDeltaNPV, chartNPVBreakdown;
+const YEARS = Array.from({length: 25}, (_, i) => 2026 + i);
+
+// ─────────────────────────────────────────────────────────────
+//  CALCULATIONS
+// ─────────────────────────────────────────────────────────────
+function baselineRev(site) {
+  return (site.rev[2023] + site.rev[2024] + site.rev[2025]) / 3;
+}
+
+function calcFCFs(site, scenario) {
+  const isFossil = scenario === 'fossil';
+  const p = isFossil ? site.fossil : site.sustain;
+  const growth = isFossil ? G.fGrowth : G.sGrowth;
+  const base = baselineRev(site);
+  const wacc = p.wacc / 100;
+  const tax  = p.tax  / 100;
+  const ebit = p.ebit / 100;
+
+  return YEARS.map((yr, i) => {
+    const rev    = base * Math.pow(1 + growth, i + 1);
+    const nopat  = rev * ebit * (1 - tax);
+    const capexA = rev * G.capex;
+    let fcf      = nopat - capexA;
+    // Investment in year 1 of sustainable switch
+    if (!isFossil && i === 0) fcf -= G.invest;
+    return { yr, rev, nopat, capex: capexA, fcf };
+  });
+}
+
+function calcNPV(site, scenario) {
+  const isFossil = scenario === 'fossil';
+  const wacc = (isFossil ? site.fossil.wacc : site.sustain.wacc) / 100;
+  const fcfs = calcFCFs(site, scenario);
+  let npv = 0;
+  fcfs.forEach((d, i) => {
+    npv += d.fcf / Math.pow(1 + wacc, i + 1);
+  });
+  return npv;
+}
+
+function getRecommendation(site) {
+  const nf = calcNPV(site, 'fossil');
+  const ns = calcNPV(site, 'sustain');
+  if (nf < 0 && ns < 0) return 'close';
+  if (ns > nf)           return 'sustain';
+  return 'fossil';
+}
+
+// ─────────────────────────────────────────────────────────────
+//  FORMATTERS
+// ─────────────────────────────────────────────────────────────
+function fmtM(keur) {
+  const m = keur / 1000;
+  const sign = m >= 0 ? '+' : '';
+  return sign + m.toFixed(1) + 'M';
+}
+function fmtMabs(keur) {
+  return (keur / 1000).toFixed(1) + 'M';
+}
+function colorNPV(val) {
+  return val >= 0 ? 'var(--teal-light)' : 'var(--rose)';
+}
+
+// ─────────────────────────────────────────────────────────────
+//  RENDER SITE CARDS
+// ─────────────────────────────────────────────────────────────
+let siteScenarioTab = { antwerp: 'fossil', hamburg: 'fossil', barcelona: 'fossil' };
+
+function renderSites() {
+  const grid = document.getElementById('sites-grid');
+  grid.innerHTML = '';
+  SITES.forEach(site => {
+    const nf = calcNPV(site, 'fossil');
+    const ns = calcNPV(site, 'sustain');
+    const rec = getRecommendation(site);
+    const activeTab = siteScenarioTab[site.id];
+    const p = activeTab === 'fossil' ? site.fossil : site.sustain;
+
+    const recLabel = rec === 'fossil' ? '⚡ Keep Fossil'
+                   : rec === 'sustain' ? '♻ Switch Sustainable'
+                   : '🔴 Consider Closure';
+    const recClass = rec === 'fossil' ? 'rec-fossil'
+                   : rec === 'sustain' ? 'rec-sustain' : 'rec-close';
+
+    const card = document.createElement('div');
+    card.className = 'site-card';
+    card.innerHTML = `
+      <div class="site-header">
+        <div>
+          <div class="site-name">${site.name}</div>
+          <div class="site-country">${site.country}</div>
+        </div>
+        <div class="site-flag">${site.flag}</div>
+      </div>
+      <div class="site-body">
+        <div class="npv-row">
+          <div class="npv-box">
+            <div class="npv-label">NPV Fossil</div>
+            <div class="npv-value" style="color:${colorNPV(nf)}">${fmtM(nf)}</div>
+          </div>
+          <div class="npv-box">
+            <div class="npv-label">NPV Sustain</div>
+            <div class="npv-value" style="color:${colorNPV(ns)}">${fmtM(ns)}</div>
+          </div>
+        </div>
+        <div class="recommendation ${recClass}">${recLabel}</div>
+
+        <div class="scenario-tabs">
+          <button class="tab-btn ${activeTab==='fossil' ? 'active-fossil' : ''}"
+            onclick="setTab('${site.id}','fossil')">Fossil</button>
+          <button class="tab-btn ${activeTab==='sustain' ? 'active-sustain' : ''}"
+            onclick="setTab('${site.id}','sustain')">Sustainable</button>
+        </div>
+
+        <div class="params-grid">
+          <div class="param-group">
+            <label>WACC (%)<span id="${site.id}-wacc-val">${p.wacc.toFixed(1)}</span></label>
+            <input type="range" id="${site.id}-wacc" min="3" max="15" step="0.1" value="${p.wacc}"
+              oninput="updateSiteParam('${site.id}','${activeTab}','wacc',this.value)">
+          </div>
+          <div class="param-group">
+            <label>Tax Rate (%)<span id="${site.id}-tax-val">${p.tax.toFixed(0)}</span></label>
+            <input type="range" id="${site.id}-tax" min="10" max="40" step="1" value="${p.tax}"
+              oninput="updateSiteParam('${site.id}','${activeTab}','tax',this.value)">
+          </div>
+          <div class="param-group">
+            <label>EBIT Margin (%)<span id="${site.id}-ebit-val">${p.ebit.toFixed(0)}</span></label>
+            <input type="range" id="${site.id}-ebit" min="0" max="25" step="0.5" value="${p.ebit}"
+              oninput="updateSiteParam('${site.id}','${activeTab}','ebit',this.value)">
+          </div>
+          <div class="param-group">
+            <label>Base Rev (MEUR)<span>${fmtMabs(baselineRev(site))}</span></label>
+            <div style="font-size:10px;color:var(--gray-400);margin-top:4px">
+              Avg 2023–25 (fixed)
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function setTab(siteId, scenario) {
+  siteScenarioTab[siteId] = scenario;
+  renderSites();
+}
+
+function updateSiteParam(siteId, scenario, param, val) {
+  const site = SITES.find(s => s.id === siteId);
+  const p = scenario === 'fossil' ? site.fossil : site.sustain;
+  p[param] = parseFloat(val);
+  renderAll();
+}
+
+// ─────────────────────────────────────────────────────────────
+//  SUMMARY
+// ─────────────────────────────────────────────────────────────
+function renderSummary() {
+  let switchCount = 0, closeCount = 0, totalNPV = 0, totalInvest = 0, stakeSum = 0;
+  SITES.forEach(site => {
+    const nf = calcNPV(site, 'fossil');
+    const ns = calcNPV(site, 'sustain');
+    const rec = getRecommendation(site);
+    stakeSum += ns - nf;
+    if (rec === 'sustain') { switchCount++; totalNPV += ns; totalInvest += G.invest; }
+    else if (rec === 'fossil') { totalNPV += nf; }
+    else { closeCount++; }
+  });
+
+  const totalEl = document.getElementById('sum-total-npv');
+  totalEl.textContent = fmtM(totalNPV) + ' EUR';
+  totalEl.className = 'value ' + (totalNPV >= 0 ? 'positive' : 'negative');
+
+  document.getElementById('sum-switch').textContent = switchCount + ' / ' + SITES.length;
+  document.getElementById('sum-close').textContent  = closeCount + ' / ' + SITES.length;
+  document.getElementById('sum-invest').textContent = fmtM(totalInvest) + ' EUR';
+
+  const stakeEl = document.getElementById('sum-stake');
+  stakeEl.textContent = fmtM(stakeSum) + ' EUR';
+  stakeEl.className = 'value ' + (stakeSum >= 0 ? 'positive' : 'negative');
+}
+
+// ─────────────────────────────────────────────────────────────
+//  CHARTS
+// ─────────────────────────────────────────────────────────────
+let charts = {};
+
+const PALETTE = {
+  antwerp_f:  'rgba(245,158,11,0.85)',
+  antwerp_s:  'rgba(20,184,166,0.85)',
+  hamburg_f:  'rgba(251,191,36,0.7)',
+  hamburg_s:  'rgba(52,211,153,0.7)',
+  barcelona_f:'rgba(252,211,77,0.55)',
+  barcelona_s:'rgba(110,231,183,0.55)',
+};
+
+const SITE_COLORS = ['#3b82f6','#14b8a6','#a78bfa'];
 
 function initCharts() {
-  chartRevenue = new Chart(document.getElementById('chart-revenue'), {
-    type: 'line',
-    data: { labels: years, datasets: [] },
-    options: JSON.parse(JSON.stringify(chartOpts))
-  });
-
-  chartCumFCF = new Chart(document.getElementById('chart-cum-fcf'), {
-    type: 'line',
-    data: { labels: years, datasets: [] },
-    options: JSON.parse(JSON.stringify(chartOpts))
-  });
-
-  const deltaNPVOpts = JSON.parse(JSON.stringify(chartOpts));
-  deltaNPVOpts.indexAxis = 'y';
-  deltaNPVOpts.scales.x = {
-    grid: { color: '#f0f1f3', drawBorder: false },
-    ticks: { font: { family: 'Inter', size: 10 }, color: '#c5c8ce', callback: v => (v/1000).toFixed(0) + 'M' },
-    border: { display: false }
-  };
-  deltaNPVOpts.scales.y = {
-    grid: { display: false },
-    ticks: { font: { family: 'Inter', size: 12, weight: '500' }, color: '#4a4e56' },
-    border: { display: false }
-  };
-  deltaNPVOpts.plugins.tooltip.callbacks = {
-    label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.x / 1000).toFixed(0) + 'M EUR'
+  const defaults = {
+    plugins: {
+      legend: { labels: { color: '#9ca3af', font: { size: 11 }, boxWidth: 12 } },
+      tooltip: {
+        backgroundColor: 'rgba(10,22,40,0.95)',
+        titleColor: '#fff',
+        bodyColor: '#9ca3af',
+        borderColor: 'rgba(59,130,246,0.3)',
+        borderWidth: 1,
+      }
+    },
+    scales: {
+      x: { ticks: { color: '#9ca3af', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' } },
+      y: { ticks: { color: '#9ca3af', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.06)' } }
+    }
   };
 
-  chartDeltaNPV = new Chart(document.getElementById('chart-delta-npv'), {
+  charts.npv = new Chart(document.getElementById('chart-npv'), {
     type: 'bar',
     data: { labels: [], datasets: [] },
-    options: deltaNPVOpts
+    options: { ...defaults, responsive: true,
+      plugins: { ...defaults.plugins,
+        legend: { ...defaults.plugins.legend }
+      }
+    }
   });
 
-  const brkOpts = JSON.parse(JSON.stringify(chartOpts));
-  brkOpts.scales.x.ticks = { font: { family: 'Inter', size: 10 }, color: '#c5c8ce' };
-  brkOpts.plugins.tooltip.callbacks = {
-    label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y / 1000).toFixed(0) + 'M EUR'
-  };
+  charts.fcf = new Chart(document.getElementById('chart-fcf'), {
+    type: 'line',
+    data: { labels: YEARS, datasets: [] },
+    options: { ...defaults, responsive: true, elements: { point: { radius: 0 } } }
+  });
 
-  chartNPVBreakdown = new Chart(document.getElementById('chart-npv-breakdown'), {
-    type: 'bar',
-    data: { labels: [], datasets: [] },
-    options: brkOpts
+  charts.rev = new Chart(document.getElementById('chart-rev'), {
+    type: 'line',
+    data: { labels: YEARS, datasets: [] },
+    options: { ...defaults, responsive: true, elements: { point: { radius: 0 } } }
+  });
+
+  charts.cum = new Chart(document.getElementById('chart-cum'), {
+    type: 'line',
+    data: { labels: YEARS, datasets: [] },
+    options: { ...defaults, responsive: true, elements: { point: { radius: 0 } } }
   });
 }
 
-// === UPDATE ===
-function update() {
-  const results = SITES.map(s => runDCF(s));
-  const s = currentSite;
-  const r = results[s];
-
-  // Revenue chart
-  chartRevenue.data.datasets = [
-    {
-      label: 'Fossil',
-      data: r.fossil.rev,
-      borderColor: '#c5c8ce',
-      backgroundColor: 'rgba(197,200,206,0.08)',
-      fill: true, borderDash: [4, 3]
-    },
-    {
-      label: 'Sustainable',
-      data: r.sust.rev,
-      borderColor: '#051c3b',
-      backgroundColor: 'rgba(5,28,59,0.06)',
-      fill: true
-    }
+function updateCharts() {
+  // NPV Bar Chart
+  const npvFossil  = SITES.map(s => calcNPV(s, 'fossil')  / 1000);
+  const npvSustain = SITES.map(s => calcNPV(s, 'sustain') / 1000);
+  charts.npv.data.labels = SITES.map(s => s.name);
+  charts.npv.data.datasets = [
+    { label: 'Fossil NPV',     data: npvFossil,  backgroundColor: 'rgba(245,158,11,0.7)', borderColor: 'rgba(245,158,11,1)',     borderWidth: 1, borderRadius: 6 },
+    { label: 'Sustainable NPV',data: npvSustain, backgroundColor: 'rgba(20,184,166,0.7)', borderColor: 'rgba(20,184,166,1)',     borderWidth: 1, borderRadius: 6 },
   ];
-  chartRevenue.update('none');
+  charts.npv.update();
 
-  // Cumulative discounted FCF
-  chartCumFCF.data.datasets = [
-    {
-      label: 'Fossil (cumulative)',
-      data: r.fossil.cum_disc_fcf,
-      borderColor: '#c5c8ce',
+  // FCF Line Charts — recommended scenario
+  const fcfDS = SITES.map((site, i) => {
+    const rec = getRecommendation(site);
+    const scenario = rec === 'sustain' ? 'sustain' : 'fossil';
+    const fcfs = calcFCFs(site, scenario).map(d => d.fcf / 1000);
+    return {
+      label: `${site.name} (${rec === 'sustain' ? 'Sust.' : 'Fossil'})`,
+      data: fcfs,
+      borderColor: SITE_COLORS[i],
+      backgroundColor: SITE_COLORS[i] + '20',
+      fill: true, tension: 0.35, borderWidth: 2
+    };
+  });
+  charts.fcf.data.datasets = fcfDS;
+  charts.fcf.update();
+
+  // Revenue chart — best scenario per site
+  const revDS = SITES.map((site, i) => {
+    const rec = getRecommendation(site);
+    const scenario = rec === 'sustain' ? 'sustain' : 'fossil';
+    const revs = calcFCFs(site, scenario).map(d => d.rev / 1000);
+    return {
+      label: site.name,
+      data: revs,
+      borderColor: SITE_COLORS[i],
       backgroundColor: 'transparent',
-      borderDash: [4, 3]
-    },
-    {
-      label: 'Sustainable (cumulative)',
-      data: r.sust.cum_disc_fcf,
-      borderColor: '#4a90d9',
-      backgroundColor: 'rgba(74,144,217,0.06)',
-      fill: true
-    }
-  ];
-  chartCumFCF.update('none');
-
-  // Delta NPV horizontal bar
-  const deltas = results.map(r => r.delta);
-  chartDeltaNPV.data.labels = SITES.map(s => s.name);
-  chartDeltaNPV.data.datasets = [{
-    label: '\u0394NPV',
-    data: deltas,
-    backgroundColor: deltas.map(d => d > 0 ? 'rgba(46,204,113,0.7)' : 'rgba(231,76,60,0.6)'),
-    borderColor: deltas.map(d => d > 0 ? '#1a9c54' : '#c0392b'),
-    borderWidth: 1,
-    borderRadius: 4,
-    barThickness: 36
-  }];
-  chartDeltaNPV.update('none');
-
-  // NPV breakdown grouped bar
-  chartNPVBreakdown.data.labels = SITES.map(s => s.name);
-  chartNPVBreakdown.data.datasets = [
-    {
-      label: 'Fossil NPV',
-      data: results.map(r => r.fossil.npv),
-      backgroundColor: 'rgba(197,200,206,0.6)',
-      borderColor: '#aab0b8',
-      borderWidth: 1, borderRadius: 3, barThickness: 20
-    },
-    {
-      label: 'Switch NPV',
-      data: results.map(r => r.sust.npv),
-      backgroundColor: 'rgba(5,28,59,0.7)',
-      borderColor: '#051c3b',
-      borderWidth: 1, borderRadius: 3, barThickness: 20
-    }
-  ];
-  chartNPVBreakdown.update('none');
-
-  // KPI cards
-  let bestIdx = 0;
-  results.forEach((r, i) => { if (r.delta > results[bestIdx].delta) bestIdx = i; });
-
-  const bestDelta = results[bestIdx].delta;
-  document.getElementById('kpi-best').textContent = fmtM(bestDelta);
-  document.getElementById('kpi-best').className = 'kpi-value ' + (bestDelta > 0 ? 'positive' : 'negative');
-  document.getElementById('kpi-best-site').textContent = SITES[bestIdx].name + ' \u2014 ' + (bestDelta > 0 ? 'Switch' : 'Keep');
-
-  const totalDelta = results.reduce((sum, r) => sum + r.delta, 0);
-  document.getElementById('kpi-total').textContent = fmtM(totalDelta);
-  document.getElementById('kpi-total').className = 'kpi-value ' + (totalDelta > 0 ? 'positive' : 'negative');
-
-  const switchSites = results.map((r, i) => ({ name: SITES[i].name, d: r.delta })).filter(x => x.d > 0);
-  document.getElementById('kpi-switch-count').textContent = switchSites.length;
-  document.getElementById('kpi-switch-names').textContent = switchSites.map(x => x.name).join(', ') || 'None';
-
-  const totalInvest = switchSites.length * SITES[currentSite].investment;
-  document.getElementById('kpi-investment').textContent = (switchSites.reduce((s, x) => {
-    const idx = SITES.findIndex(si => si.name === x.name);
-    return s + SITES[idx].investment;
-  }, 0)) + 'M';
-
-  // Site decision cards
-  const cardsHtml = results.map((r, i) => {
-    const decision = r.delta > 5000 ? 'SWITCH' : (r.fossil.npv < -50000 && r.sust.npv < -50000 ? 'CONSIDER CLOSING' : 'KEEP FOSSIL');
-    const badgeClass = decision === 'SWITCH' ? 'badge-switch' : (decision === 'KEEP FOSSIL' ? 'badge-keep' : 'badge-close');
-    const deltaClass = r.delta > 0 ? 'positive' : 'negative';
-    return `
-      <div class="npv-site-card">
-        <div class="npv-site-name">${SITES[i].name}</div>
-        <div class="decision-badge ${badgeClass}">${decision}</div>
-        <div class="npv-site-value ${deltaClass}">${fmtM(r.delta)}</div>
-        <div class="npv-site-detail">
-          Fossil NPV: ${fmtM(r.fossil.npv)}<br>
-          Switch NPV: ${fmtM(r.sust.npv)}<br>
-          Margin uplift: +${(SITES[i].sust_margin - SITES[i].fossil_margin).toFixed(1)}pp
-        </div>
-      </div>`;
-  }).join('');
-  document.getElementById('site-decision-cards').innerHTML = cardsHtml;
-}
-
-// === SITE TABS ===
-function selectSite(idx) {
-  currentSite = idx;
-  document.querySelectorAll('.site-tab').forEach((t, i) => {
-    t.classList.toggle('active', i === idx);
+      tension: 0.35, borderWidth: 2
+    };
   });
-  // Load site params into sliders
-  const s = SITES[idx];
-  document.getElementById('s-fossil-margin').value = s.fossil_margin;
-  document.getElementById('s-sust-margin').value = s.sust_margin;
-  document.getElementById('s-fossil-growth').value = s.fossil_growth;
-  document.getElementById('s-sust-growth').value = s.sust_growth;
-  document.getElementById('s-wacc').value = s.wacc;
-  document.getElementById('s-tax').value = s.tax;
-  document.getElementById('s-capex').value = s.capex_pct;
-  document.getElementById('s-invest').value = s.investment;
-  updateSliderLabels();
-  update();
+  charts.rev.data.datasets = revDS;
+  charts.rev.update();
+
+  // Cumulative FCF chart — fossil total vs sustainable total
+  const cumFossil = [], cumSustain = [];
+  let cF = 0, cS = 0;
+  YEARS.forEach((yr, i) => {
+    cF += SITES.reduce((sum, s) => sum + calcFCFs(s, 'fossil')[i].fcf, 0) / 1000;
+    cS += SITES.reduce((sum, s) => sum + calcFCFs(s, 'sustain')[i].fcf, 0) / 1000;
+    cumFossil.push(cF);
+    cumSustain.push(cS);
+  });
+  charts.cum.data.datasets = [
+    { label: 'All Fossil', data: cumFossil,  borderColor: 'rgba(245,158,11,0.9)', backgroundColor: 'rgba(245,158,11,0.08)', fill: true, tension: 0.35, borderWidth: 2 },
+    { label: 'All Sustainable', data: cumSustain, borderColor: 'rgba(20,184,166,0.9)', backgroundColor: 'rgba(20,184,166,0.08)', fill: true, tension: 0.35, borderWidth: 2 },
+  ];
+  charts.cum.update();
 }
 
-function updateSliderLabels() {
-  document.getElementById('v-fossil-margin').textContent = document.getElementById('s-fossil-margin').value + '%';
-  document.getElementById('v-sust-margin').textContent = document.getElementById('s-sust-margin').value + '%';
-  document.getElementById('v-fossil-growth').textContent = parseFloat(document.getElementById('s-fossil-growth').value).toFixed(1) + '%';
-  document.getElementById('v-sust-growth').textContent = parseFloat(document.getElementById('s-sust-growth').value).toFixed(1) + '%';
-  document.getElementById('v-wacc').textContent = document.getElementById('s-wacc').value + '%';
-  document.getElementById('v-tax').textContent = document.getElementById('s-tax').value + '%';
-  document.getElementById('v-capex').textContent = document.getElementById('s-capex').value + '%';
-  document.getElementById('v-invest').textContent = document.getElementById('s-invest').value;
+// ─────────────────────────────────────────────────────────────
+//  GLOBAL PARAM WIRING
+// ─────────────────────────────────────────────────────────────
+function wireGlobal(id, key, label, scale=1, digits=1) {
+  const el = document.getElementById(id);
+  const lbl = document.getElementById(label);
+  el.addEventListener('input', () => {
+    G[key] = parseFloat(el.value) / scale;
+    lbl.textContent = parseFloat(el.value).toFixed(digits);
+    renderAll();
+  });
 }
 
-function onSlider() {
-  const s = SITES[currentSite];
-  s.fossil_margin = parseFloat(document.getElementById('s-fossil-margin').value);
-  s.sust_margin = parseFloat(document.getElementById('s-sust-margin').value);
-  s.fossil_growth = parseFloat(document.getElementById('s-fossil-growth').value);
-  s.sust_growth = parseFloat(document.getElementById('s-sust-growth').value);
-  s.wacc = parseFloat(document.getElementById('s-wacc').value);
-  s.tax = parseFloat(document.getElementById('s-tax').value);
-  s.capex_pct = parseFloat(document.getElementById('s-capex').value);
-  s.investment = parseFloat(document.getElementById('s-invest').value);
-  updateSliderLabels();
-  update();
+// ─────────────────────────────────────────────────────────────
+//  RENDER ALL
+// ─────────────────────────────────────────────────────────────
+function renderAll() {
+  renderSites();
+  renderSummary();
+  updateCharts();
 }
 
-// === INIT ===
-Chart.defaults.font.family = 'Inter';
-initCharts();
-selectSite(0);
+// ─────────────────────────────────────────────────────────────
+//  CASE SECTION TOGGLE + MINI CHARTS
+// ─────────────────────────────────────────────────────────────
+function toggleCase() {
+  const body = document.getElementById('case-body');
+  const chev = document.getElementById('case-chevron');
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+
+function renderMarginBars() {
+  const data = [
+    { yr: '2017', ebitda: 24 },
+    { yr: '2018', ebitda: 21 },
+    { yr: '2019', ebitda: 18 },
+    { yr: '2020', ebitda: 16 },
+    { yr: '2021', ebitda: 15 },
+    { yr: '2022', ebitda: 11 },
+    { yr: '2023', ebitda:  9 },
+    { yr: '2024', ebitda:  7 },
+  ];
+  const maxVal = 24;
+  const container = document.getElementById('margin-bars');
+  if (!container) return;
+  container.innerHTML = '';
+  data.forEach(d => {
+    const pct = (d.ebitda / maxVal) * 100;
+    const hue = 120 * (d.ebitda / maxVal); // green → red
+    const color = `hsl(${hue}, 70%, 55%)`;
+    const bar = document.createElement('div');
+    bar.className = 'bar-yr';
+    bar.style.height = pct + '%';
+    bar.style.background = color;
+    bar.style.flex = '1';
+    bar.style.borderRadius = '3px 3px 0 0';
+    bar.style.position = 'relative';
+    bar.innerHTML = `
+      <div class="tip">${d.yr}: ${d.ebitda}% EBITDA</div>
+      <div class="bar-label">${d.yr.slice(2)}</div>
+    `;
+    container.appendChild(bar);
+  });
+}
+
+// ─────────────────────────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  renderMarginBars();
+  // Wire global sliders
+  document.getElementById('g-invest').addEventListener('input', function() {
+    G.invest = parseFloat(this.value) * 1000;
+    document.getElementById('g-invest-val').textContent = this.value;
+    renderAll();
+  });
+  document.getElementById('g-fg').addEventListener('input', function() {
+    G.fGrowth = parseFloat(this.value) / 100;
+    document.getElementById('g-fg-val').textContent = parseFloat(this.value).toFixed(1);
+    renderAll();
+  });
+  document.getElementById('g-sg').addEventListener('input', function() {
+    G.sGrowth = parseFloat(this.value) / 100;
+    document.getElementById('g-sg-val').textContent = parseFloat(this.value).toFixed(1);
+    renderAll();
+  });
+  document.getElementById('g-capex').addEventListener('input', function() {
+    G.capex = parseFloat(this.value) / 100;
+    document.getElementById('g-capex-val').textContent = parseFloat(this.value).toFixed(1);
+    renderAll();
+  });
+
+  initCharts();
+  renderAll();
+});
 </script>
-
 </body>
 </html>
